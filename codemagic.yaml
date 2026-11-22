@@ -52,6 +52,6 @@ workflows:
       - name: Android SDK location
         script: echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
       - name: Build the .aab
-        script: cd android && ./gradlew bundleRelease -PversionCode=$BUILD_NUMBER
+        script: cd android && chmod +x gradlew && ./gradlew bundleRelease -PversionCode=$BUILD_NUMBER
     artifacts:
       - android/app/build/outputs/bundle/release/*.aab
