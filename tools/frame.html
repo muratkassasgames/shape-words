@@ -1,0 +1,13 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../www/fonts.css">
+<style>html,body{margin:0}
+.f{width:var(--W);height:var(--H);display:flex;flex-direction:column;align-items:center;background:var(--bg);overflow:hidden;font-family:Fredoka;box-sizing:border-box;padding-top:calc(var(--W)*.075)}
+h1{margin:0 0 0;font-weight:700;color:#fff;text-align:center;font-size:calc(var(--W)*.082);line-height:1.08;padding:0 calc(var(--W)*.07);text-wrap:balance}
+p{margin:calc(var(--W)*.018) 0 0;color:rgba(255,255,255,.88);font-family:Nunito;font-weight:800;font-size:calc(var(--W)*.04);text-align:center;padding:0 calc(var(--W)*.08)}
+.ph{margin-top:calc(var(--W)*.06);width:var(--sw);border-radius:calc(var(--W)*.07);overflow:hidden;box-shadow:0 0 0 calc(var(--W)*.014) rgba(255,255,255,.95),0 calc(var(--W)*.04) calc(var(--W)*.09) rgba(0,0,0,.28)}
+.ph img{display:block;width:100%}
+</style></head><body><div class="f" id="f"><h1 id="h"></h1><p id="s"></p><div class="ph"><img id="i"></div></div>
+<script>
+const q=new URLSearchParams(location.search),f=document.getElementById('f');
+f.style.setProperty('--W',q.get('w')+'px');f.style.setProperty('--H',q.get('h')+'px');f.style.setProperty('--sw',q.get('sw')+'px');f.style.setProperty('--bg',q.get('bg'));
+document.getElementById('h').textContent=q.get('t');document.getElementById('s').textContent=q.get('st');document.getElementById('i').src='../store/raw/'+q.get('img');
+</script></body></html>

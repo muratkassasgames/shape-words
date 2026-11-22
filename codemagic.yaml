@@ -1,0 +1,57 @@
+# Codemagic builds for Shape Words: Learn English
+# Before the first build, in Codemagic:
+#  - iOS:   Teams > Integrations > App Store Connect: use the API key you set up for Pati Pals.
+#           Put its name below in place of APP_STORE_KEY_NAME.
+#  - Android: Code signing identities > Android keystores: create/upload a NEW keystore for this app
+#           with the reference name  shape_words_keystore  (keep a copy of the file and passwords safe!).
+workflows:
+  ios-release:
+    name: Shape Words – iOS (TestFlight)
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: APP_STORE_KEY_NAME
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.muratkassasgames.shapewords
+      node: 22
+      xcode: latest
+    scripts:
+      - name: Install packages
+        script: npm ci
+      - name: Copy the game into the iOS project
+        script: npx cap sync ios
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Set build number
+        script: cd ios/App && agvtool new-version -all $BUILD_NUMBER
+      - name: Build the .ipa
+        script: xcode-project build-ipa --project "ios/App/App.xcodeproj" --scheme "App"
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+
+  android-release:
+    name: Shape Words – Android (.aab)
+    max_build_duration: 60
+    instance_type: linux_x2
+    environment:
+      android_signing:
+        - shape_words_keystore
+      node: 22
+      java: 21
+    scripts:
+      - name: Install packages
+        script: npm ci
+      - name: Copy the game into the Android project
+        script: npx cap sync android
+      - name: Android SDK location
+        script: echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
+      - name: Build the .aab
+        script: cd android && ./gradlew bundleRelease -PversionCode=$BUILD_NUMBER
+    artifacts:
+      - android/app/build/outputs/bundle/release/*.aab

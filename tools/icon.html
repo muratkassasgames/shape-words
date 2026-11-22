@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../www/fonts.css">
+<style>
+html,body{margin:0}
+.c{width:1024px;height:1024px;position:relative;overflow:hidden;font-family:Fredoka}
+.bg{position:absolute;inset:0;background:radial-gradient(120% 120% at 20% 10%,#4cc98a,#1f8a5a 55%,#156b45)}
+.fg{position:absolute;inset:0;display:grid;place-items:center}
+.grid{position:relative;display:grid;grid-template-columns:repeat(3,var(--t));gap:var(--g)}
+.t{width:var(--t);height:var(--t);border-radius:calc(var(--t)*.22);background:#fffdf7;display:grid;place-items:center;font-weight:700;font-size:calc(var(--t)*.62);color:#123b2a;box-shadow:0 calc(var(--t)*.07) 0 rgba(0,0,0,.18)}
+svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:0}
+.t{position:relative;z-index:1}
+.t.on{background:#ffc83d;color:#4a3300;box-shadow:0 calc(var(--t)*.07) 0 #c98f00}
+</style></head><body>
+<div class="c" id="c"><div class="bg" id="bg"></div><div class="fg"><div class="grid" id="grid" style="--t:230px;--g:34px">
+<div class="t on">S</div><div class="t on">H</div><div class="t on">A</div>
+<div class="t">O</div><div class="t">W</div><div class="t on">P</div>
+<div class="t">R</div><div class="t">D</div><div class="t on">E</div>
+<svg viewBox="0 0 3 3" preserveAspectRatio="none"><polyline points=".5,.5 1.5,.5 2.5,.5 2.5,1.5 2.5,2.5" fill="none" stroke="#ffc83d" stroke-width=".42" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div></div></div>
+<script>
+const q=new URLSearchParams(location.search);
+if(q.get('mode')==='fg'){document.getElementById('bg').style.display='none';document.getElementById('grid').style.cssText='--t:150px;--g:22px';}
+if(q.get('mode')==='bgonly'){document.querySelector('.fg').style.display='none';}
+if(q.get('t')){document.getElementById('grid').style.cssText=`--t:${q.get('t')}px;--g:${Math.round(q.get('t')*.15)}px`;}
+</script></body></html>

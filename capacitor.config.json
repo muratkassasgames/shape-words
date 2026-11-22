@@ -1,0 +1,18 @@
+{
+  "appId": "com.muratkassasgames.shapewords",
+  "appName": "Shape Words",
+  "webDir": "www",
+  "backgroundColor": "#e3f3ec",
+  "ios": {
+    "contentInset": "never",
+    "scrollEnabled": false,
+    "backgroundColor": "#e3f3ec"
+  },
+  "android": {
+    "backgroundColor": "#e3f3ec",
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "SystemBars": { "insetsHandling": "css", "initialViewportFitValueHint": "cover" }
+  }
+}
