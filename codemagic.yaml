@@ -1,7 +1,7 @@
 # Codemagic builds for Shape Words: Learn English
 # Before the first build, in Codemagic:
-#  - iOS:   Teams > Integrations > App Store Connect: use the API key you set up for Pati Pals.
-#           Put its name below in place of APP_STORE_KEY_NAME.
+#  - iOS:   uses the App Store Connect API key "codemagic_api_key" (same as Pati Pals / Jigsaw).
+#           App Store profile: shapewords_appstore (fetched in Code signing identities).
 #  - Android: Code signing identities > Android keystores: create/upload a NEW keystore for this app
 #           with the reference name  shape_words_keystore  (keep a copy of the file and passwords safe!).
 workflows:
@@ -10,7 +10,7 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
     integrations:
-      app_store_connect: APP_STORE_KEY_NAME
+      app_store_connect: codemagic_api_key
     environment:
       ios_signing:
         distribution_type: app_store
