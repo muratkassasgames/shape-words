@@ -131,29 +131,39 @@ step("Name, subtitle, privacy URL (8 locales)", info_localizations)
 def age_rating():
     decl = call("GET", f"/v1/appInfos/{INFO}/ageRatingDeclaration")["data"]
     did = decl["id"]
-    none = ["alcoholTobaccoOrDrugUseOrReferences", "contests", "gamblingSimulated", "horrorOrFearThemes",
-            "matureOrSuggestiveThemes", "medicalOrTreatmentInformation", "profanityOrCrudeHumor",
-            "sexualContentGraphicAndNudity", "sexualContentOrNudity", "violenceCartoonOrFantasy",
-            "violenceRealistic", "violenceRealisticProlongedGraphicOrSadistic", "gunsOrOtherWeapons"]
-    false = ["unrestrictedWebAccess", "gambling", "lootBox", "messagingAndChat", "parentalControls",
-             "healthOrWellnessTopics", "userGeneratedContent", "advertising", "ageAssurance"]
     current = decl.get("attributes", {})
-    wanted = {k: "NONE" for k in none}
-    wanted.update({k: False for k in false})
-    try:
-        call("PATCH", f"/v1/ageRatingDeclarations/{did}",
-             {"data": {"type": "ageRatingDeclarations", "id": did, "attributes": wanted}})
-        return
-    except Exception as e:
-        print("   bulk patch failed, trying one by one:", str(e)[:200])
-    for k, v in wanted.items():
-        if k not in current and current:
-            continue
-        try:
+    print("   current:", json.dumps(current))
+    none_keys = {"alcoholTobaccoOrDrugUseOrReferences", "contests", "gamblingSimulated", "horrorOrFearThemes",
+                 "matureOrSuggestiveThemes", "medicalOrTreatmentInformation", "profanityOrCrudeHumor",
+                 "sexualContentGraphicAndNudity", "sexualContentOrNudity", "violenceCartoonOrFantasy",
+                 "violenceRealistic", "violenceRealisticProlongedGraphicOrSadistic", "gunsOrOtherWeapons",
+                 "gamblingAndContests"}
+    false_keys = {"unrestrictedWebAccess", "gambling", "lootBox", "messagingAndChat", "parentalControls",
+                  "healthOrWellnessTopics", "userGeneratedContent", "advertising", "ageAssurance", "seventeenPlus"}
+    wanted = {}
+    for k in current:
+        if k in none_keys:
+            wanted[k] = "NONE"
+        elif k in false_keys:
+            wanted[k] = False
+        else:
+            print("   leaving", k, "=", current[k])
+    r = requests.patch(API + f"/v1/ageRatingDeclarations/{did}", timeout=60,
+                       headers={"Authorization": "Bearer " + token(), "Content-Type": "application/json"},
+                       json={"data": {"type": "ageRatingDeclarations", "id": did, "attributes": wanted}})
+    print("   status", r.status_code)
+    if r.status_code != 200:
+        for e in r.json().get("errors", []):
+            print("   ERR", e.get("code"), "|", e.get("detail"), "|", (e.get("source") or {}).get("pointer"))
+        # drop the attributes Apple rejects and try once more
+        bad = {(e.get("source") or {}).get("pointer", "").split("/")[-1] for e in r.json().get("errors", [])}
+        retry = {k: v for k, v in wanted.items() if k not in bad}
+        if bad and retry != wanted:
             call("PATCH", f"/v1/ageRatingDeclarations/{did}",
-                 {"data": {"type": "ageRatingDeclarations", "id": did, "attributes": {k: v}}})
-        except Exception as e:
-            print("   ", k, "FAILED", str(e)[:200]); problems.append(f"age rating {k}")
+                 {"data": {"type": "ageRatingDeclarations", "id": did, "attributes": retry}})
+            print("   retried without", bad)
+        else:
+            raise RuntimeError("age rating not accepted")
 
 
 step("Age rating (all None -> 4+)", age_rating)
