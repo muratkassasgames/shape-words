@@ -35,6 +35,18 @@ workflows:
         auth: integration
         submit_to_testflight: true
 
+  ios-metadata:
+    name: Shape Words – App Store listing (texts, screenshots, price)
+    max_build_duration: 30
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: codemagic_api_key
+    scripts:
+      - name: Fill App Store Connect listing
+        script: |
+          python3 -m pip install --quiet --break-system-packages pyjwt cryptography requests || python3 -m pip install --quiet pyjwt cryptography requests
+          python3 tools/asc_metadata.py
+
   android-release:
     name: Shape Words – Android (.aab)
     max_build_duration: 60
