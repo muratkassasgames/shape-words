@@ -25,8 +25,36 @@ NAME = runpy.run_path("tools/listing.py")["NAME"]
 problems = []
 
 
+def load_key():
+    import base64, re
+    raw = os.environ["APP_STORE_CONNECT_PRIVATE_KEY"].strip()
+    for _ in range(3):  # Codemagic may pass @env:NAME / @file:PATH references
+        if raw.startswith("@env:"):
+            raw = os.environ[raw[5:]].strip()
+        elif raw.startswith("@file:"):
+            raw = open(os.path.expanduser(raw[6:])).read().strip()
+        elif os.path.isfile(os.path.expanduser(raw)):
+            raw = open(os.path.expanduser(raw)).read().strip()
+    raw = raw.strip('"').strip("'").replace("\\n", "\n").replace("\r", "")
+    if "BEGIN" not in raw:
+        try:
+            dec = base64.b64decode(raw).decode()
+            if "BEGIN" in dec:
+                raw = dec
+        except Exception:
+            pass
+    body = re.sub(r"-----[A-Z ]+-----", "", raw)
+    body = "".join(body.split())
+    pem = "-----BEGIN PRIVATE KEY-----\n" + "\n".join(body[i:i + 64] for i in range(0, len(body), 64)) + "\n-----END PRIVATE KEY-----\n"
+    print("key: length", len(body), "chars", flush=True)
+    return pem
+
+
+KEY = load_key()
+
+
 def token():
-    key = os.environ["APP_STORE_CONNECT_PRIVATE_KEY"]
+    key = KEY
     now = int(time.time())
     return jwt.encode({"iss": os.environ["APP_STORE_CONNECT_ISSUER_ID"], "iat": now, "exp": now + 1100,
                        "aud": "appstoreconnect-v1"}, key, algorithm="ES256",
