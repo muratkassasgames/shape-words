@@ -26,8 +26,8 @@ Paket kimliği (bundle id / application id): **com.muratkassasgames.shapewords**
    1. `android` klasörü · 2. `ios` klasörü · 3. `www` + `docs` + `store` · 4. kalan tüm dosyalar (`assets`, `tools`, `codemagic.yaml`, `package.json`, `package-lock.json`, `capacitor.config.json`, `.gitignore`, `README.md`).
 3. Repo → **Settings → Pages** → Source: *Deploy from a branch* → Branch: `main`, klasör: `/docs` → Save.
    Birkaç dakika sonra şu adresler açılmalı:
-   - https://muratkassasgames.github.io/shape-words/privacy.html
-   - https://muratkassasgames.github.io/shape-words/
+   - https://muratkassasgames.github.io/shapewords/privacy.html
+   - https://muratkassasgames.github.io/shapewords/
 
 ### 2) Apple tarafı
 1. developer.apple.com → Certificates, IDs & Profiles → **Identifiers → +** → App IDs → App →

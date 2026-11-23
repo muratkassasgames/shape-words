@@ -199,8 +199,8 @@ out=[f"# Shape Words: Learn English — Mağaza metinleri\n",
 "Uygulama adı (tüm dillerde aynı): **Shape Words: Learn English** (26/30 karakter)\n",
 "Kategori: Eğitim (Education) · ikinci kategori: Bulmaca / Kelime (Word)\n",
 "Yaş: 4+ (App Store) · Herkes / PEGI 3 (Google Play). Reklam yok, satın alma yok, veri toplanmıyor.\n",
-"Gizlilik politikası: https://muratkassasgames.github.io/shape-words/privacy.html\n",
-"Destek: https://muratkassasgames.github.io/shape-words/ · patipals.destek@gmail.com\n",
+"Gizlilik politikası: https://muratkassasgames.github.io/shapewords/privacy.html\n",
+"Destek: https://muratkassasgames.github.io/shapewords/ · patipals.destek@gmail.com\n",
 "Telif (Copyright): 2026 + Apple Developer hesabındaki adın\n",
 "\nSınırlar: App Store alt başlık 30, anahtar kelime 100, tanıtım metni 170, açıklama 4000 · Google Play kısa açıklama 80, tam açıklama 4000.\n"]
 for k,v in L.items():

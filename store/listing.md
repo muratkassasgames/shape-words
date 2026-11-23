@@ -2,8 +2,8 @@
 Uygulama adı (tüm dillerde aynı): **Shape Words: Learn English** (26/30 karakter)
 Kategori: Eğitim (Education) · ikinci kategori: Bulmaca / Kelime (Word)
 Yaş: 4+ (App Store) · Herkes / PEGI 3 (Google Play). Reklam yok, satın alma yok, veri toplanmıyor.
-Gizlilik politikası: https://muratkassasgames.github.io/shape-words/privacy.html
-Destek: https://muratkassasgames.github.io/shape-words/ · patipals.destek@gmail.com
+Gizlilik politikası: https://muratkassasgames.github.io/shapewords/privacy.html
+Destek: https://muratkassasgames.github.io/shapewords/ · patipals.destek@gmail.com
 Telif (Copyright): 2026 + Apple Developer hesabındaki adın
 
 Sınırlar: App Store alt başlık 30, anahtar kelime 100, tanıtım metni 170, açıklama 4000 · Google Play kısa açıklama 80, tam açıklama 4000.
